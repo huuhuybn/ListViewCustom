@@ -22,18 +22,23 @@ public class MainActivity extends AppCompatActivity {
     // Adapter
     String name[] = {"TUNG","KIEN","THANG","AN","KIEN","THANG","AN","KIEN","THANG","AN","KIEN","THANG","AN","KIEN","THANG","AN","KIEN","THANG","AN","KIEN","THANG","AN","KIEN","THANG","AN","KIEN","THANG","AN"}; // data
     ListView lvData; // khai bao 1 bien
-
+    MyStudentSqlite sqlite;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sqlite = new MyStudentSqlite(MainActivity.this);
+
         lvData = findViewById(R.id.lvData);
         ArrayList<Student> danhSach = new ArrayList<>();
 
         for (int i = 0; i < 100; i++) {
-            Student student = new Student("HUY " + i,"09123456" + i);
-            danhSach.add(student);
+            Student student = new Student("HUY " + i,
+                    "09123456" + i,i);
+            sqlite.insertSv(student);
         }
+
+        danhSach = sqlite.getAllStudents();
 
         StudentAdapter studentAdapter =
                 new StudentAdapter(danhSach);

@@ -37,6 +37,12 @@ public class StudentAdapter extends BaseAdapter {
                         viewGroup,false);
         TextView tvName = view.findViewById(R.id.tvName);
         TextView tvPhone = view.findViewById(R.id.tvPhone);
+        tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         Student student = getItem(i);
         tvName.setText(student.getName());
         tvPhone.setText(student.getPhone());
