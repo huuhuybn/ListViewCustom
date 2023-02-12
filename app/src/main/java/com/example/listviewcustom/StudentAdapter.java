@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,11 +38,22 @@ public class StudentAdapter extends BaseAdapter {
                         viewGroup,false);
         TextView tvName = view.findViewById(R.id.tvName);
         TextView tvPhone = view.findViewById(R.id.tvPhone);
-        tvName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        Button btnDel = view.findViewById(R.id.btnDelete);
+        Button btnUpdate = view.findViewById(R.id.btnUpdate);
+        btnDel.setOnClickListener((v1) -> {
+            StudentDAO studentDAO = new StudentDAO(viewGroup.getContext());
+            studentDAO.delete(getItem(i));// xoa sinh vien trong csdl
+            danhSach.remove(i); // xoa sinh vien trong mang
+            notifyDataSetChanged(); // cap nhat len giao dien
+        });
+        btnUpdate.setOnClickListener((v1) -> {
+            StudentDAO studentDAO = new StudentDAO(viewGroup.getContext());
+            String name = " ten moi";
+            String phone = " phone moi";
+            getItem(i).setName(name);
+            getItem(i).setPhone(phone);
+            studentDAO.update(getItem(i));
+            notifyDataSetChanged(); // cap nhat du lieu
         });
         Student student = getItem(i);
         tvName.setText(student.getName());
