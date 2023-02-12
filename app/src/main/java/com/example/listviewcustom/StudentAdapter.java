@@ -1,5 +1,6 @@
 package com.example.listviewcustom;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,8 @@ import java.util.ArrayList;
 public class StudentAdapter extends BaseAdapter {
 
     private ArrayList<Student> danhSach;
-    public StudentAdapter(ArrayList<Student> danhSach){
+
+    public StudentAdapter(ArrayList<Student> danhSach) {
         this.danhSach = danhSach;
     }
 
@@ -32,30 +34,34 @@ public class StudentAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) { // định nghĩa giao diện cho 1 hàng, và thiết lập dữ liệu hiển thị
+    public View getView(int position, View view, ViewGroup viewGroup) { // định nghĩa giao diện cho 1 hàng, và thiết lập dữ liệu hiển thị
         view = LayoutInflater.
                 from(viewGroup.getContext()).inflate(R.layout.row_student,
-                        viewGroup,false);
+                        viewGroup, false);
         TextView tvName = view.findViewById(R.id.tvName);
         TextView tvPhone = view.findViewById(R.id.tvPhone);
         Button btnDel = view.findViewById(R.id.btnDelete);
         Button btnUpdate = view.findViewById(R.id.btnUpdate);
         btnDel.setOnClickListener((v1) -> {
             StudentDAO studentDAO = new StudentDAO(viewGroup.getContext());
-            studentDAO.delete(getItem(i));// xoa sinh vien trong csdl
-            danhSach.remove(i); // xoa sinh vien trong mang
+            studentDAO.delete(getItem(position));// xoa sinh vien trong csdl
+            danhSach.remove(position); // xoa sinh vien trong mang
             notifyDataSetChanged(); // cap nhat len giao dien
         });
         btnUpdate.setOnClickListener((v1) -> {
             StudentDAO studentDAO = new StudentDAO(viewGroup.getContext());
             String name = " ten moi";
             String phone = " phone moi";
-            getItem(i).setName(name);
-            getItem(i).setPhone(phone);
-            studentDAO.update(getItem(i));
+            getItem(position).setName(name);
+            getItem(position).setPhone(phone);
+            studentDAO.update(getItem(position));
             notifyDataSetChanged(); // cap nhat du lieu
         });
-        Student student = getItem(i);
+        view.findViewById(R.id.btnOpen).setOnClickListener((v1) -> {
+           // Intent intent = new Intent(viewGroup.getContext(),);
+           // viewGroup.getContext().startActivity(intent);
+        });
+        Student student = getItem(position);
         tvName.setText(student.getName());
         tvPhone.setText(student.getPhone());
         // cách gán gía trị đơn giản nhưng chưa tối ưu cho ListView
